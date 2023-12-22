@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="ISO-8859-1"/>
+    <title>View Users</title>
+     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+    
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+    <script>
+$(document).ready(function() {
+    // Mendengarkan peristiwa saat pengguna mengetikkan sesuatu
+    $("#searchInput").on("keyup", function() {
+        var value = $(this).val().toLowerCase();
+        $("#viewDataUsers tr").filter(function() {
+            $(this).toggle($(this).text().toLowerCase().indexOf(value) > -1)
+        });
+    });
+
+    loadUserData();
+
+    function loadUserData() {
+        // Fungsi untuk mengambil dan menampilkan semua data
+        $.getJSON("http://localhost:8080/ruangan", function(result) {
+            var data = '';
+            for (var i = 0; i < result.length; i++) {
+                var rowNumber = i + 1; // Hitung nomor baris
+
+                data += "<tr><td>" + rowNumber + "</td><td>" +
+                    result[i].namaRuangan + "</td><td>" +
+                    result[i].deskripsiRuangan + "</td><td>"+
+                    "<a class='btn btn-warning' href='/mahasiswa/bookingRuangan/add/" + result[i].id + "'>Booking</a>" +
+                    "</td></tr>";
+            }
+            $("#viewDataUsers").html(data);
+        });
+    }
+});
+</script>
+
+
+</head>
+<body>
+
+	<nav class="navbar navbar-expand-lg navbar-light bg-light">
+        <a class="navbar-brand" href="#">Selamat Datang, <span th:text="${session.user.nama}"></span></a>
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarNav">
+            <ul class="navbar-nav ml-auto"> <!-- Added ml-auto here -->
+                <li class="nav-item">
+                    <a class="nav-link" th:href="@{/mahasiswa/ib/index}">Izin Bermalam</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" th:href="@{/mahasiswa/izin_keluar/index}">Izin Keluar</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" th:href="@{/mahasiswa/pembelianKaos/index}">Pemesanan Kaos</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" th:href="@{/mahasiswa/bookingRuangan/index}">Booking Ruangan</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" th:href="@{/mahasiswa/requestSurat/index}">Request Surat</a>
+                </li>
+                <li class="nav-item">
+				    <a class="nav-link btn btn-danger" th:href="@{/logout}" id="logoutLink">Logout</a>
+				</li>
+            </ul>
+        </div>
+    </nav>
+<div class="container">
+	<h1 class="mt-4">Daftar Ruangan</h1>
+	<!--<a href="/admin-view-keranjang" class="btn btn-primary">Order</a>  -->
+    <a href="/mahasiswa/bookingRuangan/indexBooking">Booking Ruangan Saya</a>
+    <input type="text" id="searchInput" class="form-control" placeholder="Cari barang...">
+    <br>
+    <h4 class="mt-4">Daftar Ruangan</h4>
+    <table id="viewDataUsers" class="table table-bordered mt-3">
+        <tr>
+            <th>No</th>
+            <th>Nama Ruangan</th>
+            <th>Deksiripsi</th>
+            <th>Action</th>
+        </tr>
+    </table>
+ </div>
+ 
+</body>
+	<script th:inline="javascript">
+	    document.getElementById('logoutLink').addEventListener('click', function(event) {
+	        event.preventDefault(); // Prevent the link from being immediately followed
+	
+	        // Redirect to the logout URL
+	        window.location.href = '/view-login';
+	    });
+	</script>
+</html>

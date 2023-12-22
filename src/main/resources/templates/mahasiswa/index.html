@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <title>Navbar Example</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+</head>
+<body>
+    <nav class="navbar navbar-expand-lg navbar-light bg-light">
+        <a class="navbar-brand" href="#">Selamat Datang, <span th:text="${session.user.nama}"></span></a>
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarNav">
+            <ul class="navbar-nav ml-auto"> <!-- Added ml-auto here -->
+                <li class="nav-item">
+                    <a class="nav-link" th:href="@{/mahasiswa/ib/index}">Izin Bermalam</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" th:href="@{/mahasiswa/izin_keluar/index}">Izin Keluar</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" th:href="@{/mahasiswa/pembelianKaos/index}">Pemesanan Kaos</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" th:href="@{/mahasiswa/bookingRuangan/index}">Booking Ruangan</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" th:href="@{/mahasiswa/requestSurat/index}">Request Surat</a>
+                </li>
+             
+                <li class="nav-item">
+				    <a class="nav-link btn btn-danger" th:href="@{/logout}" id="logoutLink">Logout</a>
+				</li>
+            </ul>
+        </div>
+    </nav>
+
+    <!-- Your other content goes here -->
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+    
+    <script th:inline="javascript">
+	    document.getElementById('logoutLink').addEventListener('click', function(event) {
+	        event.preventDefault(); // Prevent the link from being immediately followed
+	
+	        // Redirect to the logout URL
+	        window.location.href = '/view-login';
+	    });
+	</script>
+
+</body>
+</html>
